@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!--تنسيقات خاصة بالصفحة وقياساتها -->
+    <title>To-Do List</title> <!--عنوان الصفحة-->
+    <link rel="stylesheet" href="styling.css"> <!--اشارة واستدعاء لملف التنسيق-->
+</head>
+
+
+<body onload="initClock()"> <!--بمجرد اكتمال تحميل الصفحة، سيتم استدعاء دالة الساعة الموجودة بالجافا سكربت وتحديثها على الوقت الحالي-->
+
+    <div class="top"> <!--العنوان الرأسي للصفحات الثلاثة، فهذا الكلاس راح يكون ثابت للصفحات القادمة لسهولة التنقل بينهم -->
+    <header> <!--يستخدم لتمثيل رأس الصفحة، ويعتبر مقدمة الموقع لانه يحتوي على الروابط الرئيسية للموقع-->
+       <nav> <!--يستطيع هذا الوسم حمل أكثر من رابط بداخله-->
+        <ul>
+            <li>  <a class="active" href="second.html"> Home </a> </li> <!-- أول صفحة في القسم العلوي راح تكون للصفحة الرئيسية -->
+            <li> <a href="third.html"> Hydration Tracker </a> </li> <!--ثاني صفحة في القسم العلوي راح تكون لصفحة تسجيل شرب الماء  -->
+            <li>  <a href="fourth.html"> About Us </a> </li><!--  ثالث صفحة في القسم العلوي راح تكون لصفحة حول الموقع-->
+        </ul>
+    </nav></header></div>
+    
+
+    <div class="container1"> <!-- كلاس الحاوية الثاني  -->
+
+        <div class="datetime"> <!-- كلاس التاريخ والوقت -->
+
+            <div class="date"> <!-- كلاس التاريخ   -->
+                <span id="dayname">Day</span>,  <!--  تحديد معرّف لليوم-->
+                <span id="month">Month</span> <!--  تحديد معرّف للشهر-->
+                <span id="daynum">00</span>, <!--  تحديد معرّف للتاريخ-->
+                <span id="year">Year</span> <!--  تحديد معرّف للسنة-->
+            </div>
+            <div class="time"> <!--  كلاس الوقت-->
+                <span id="hour">00</span> : <!--  تحديد معرّف للساعة-->
+                <span id="minutes">00</span> : <!--  تحديد معرّف للدقيقة-->
+                <span id="seconds">00</span> <!--  تحديد معرّف للثانية-->
+                <span id="period">AM</span> <!--  تحديد معرّف لتوقيت مساءً أم صباحًا-->
+            </div>
+        </div>
+    </div>
+
+    <div class="container2"> <!--  كلاس الحاوية الثالثة-->
+
+        <div class="todo-app"> <!--انشاء كلاس  -->
+            <h2>To-Do List <img src="images/img.png"></h2> <!--  العنوان الرئيسي للكلاس بالإضافة الى صورة بجانبه-->
+            <div class="row"> <!--  كلاس بأسم صفوف راح يندرج تحته اضافة المهام-->
+                <input type="text" id="input-box" placeholder="Add your task"> <!-- راح يكون فيه خانة إضافة مهام من نوع نص ليتمكن اليوزر من ادخال المهام-->
+               
+                <div class="btn-add"> <!-- انشاء كلاس للتحكم في زر إضافة المهام، والهدف من انشاء كلاس هو القدرة على التحكم بتنسيقات الزر وتحكماته عن طريق سهولة استدعاءه في الجافا سكربت -->
+                    <button onclick="addTask()">Add</button>  <!--  زر وظيفته تتفعل عند الضغط عليه، والظاهر باللون الأصفر هي المرتبطة بينه وبين الجافا سسكربت-->
+
+                </div>
+            </div>
+            <ul id="list-container"> <!-- هذا هو المعرّف الخاص بالمهام نفسها بعد الاضافة  -->
+            </ul>
+        </div>
+    </div>
+
+
+
+    <script> //  بداية الجافا سكربت للساعة
+
+        function updateClock() { // مهمة هذي الدالة هي تحديث الساعة والتاريخ عن طريق استدعاءها من نفس الجهاز
+
+            var now = new Date(); // انشاء اوبجكت جديد راح يخزن التاريخ والساعة الحالي
+
+            // استخراج مكونات التاريخ والوقت الحاليين
+            var dname = now.getDay(), //عدد ايام الاسبوع (0-6)
+                mo = now.getMonth(),//عدد الاشهر (0-11)
+                dnum = now.getDate(), //عدد التواريخ (1-31)
+                yr = now.getFullYear(),// السنة الكاملة (مثال: 2024)
+                hou = now.getHours(), // عدد الساعات (0-23)
+                min = now.getMinutes(), // عدد الدقائق (0-59)
+                sec = now.getSeconds(),// عدد الثواني (0-59)
+                pe = "AM"; // الفترة الزمنية (صباحًا-مساءً)
+
+            // تعيين الساعة على صيغة الـ12 ساعة
+
+            if (hou == 0) { //  من اول ساعة للساعة 12 راح تكون صباحًا لان الفترة الزمنية الاساسية فوق صباحًا
+                hou = 12;
+            }
+
+            if (hou > 12) { // اول ماتعدي الساعة 12 صباحًا
+                hou = hou - 12; // راح ننقص منها 12 عشان نرجعها لنظام الـ12 ساعة مو 24
+                pe = "PM"; // وراح نعين الفترة مساءً
+            }
+
+            Number.prototype.pad = function (digits) { // عشان نبي يكون عرض الوقت علر خانتين 
+                for (var n = this.toString(); n.length < digits; n = 0 + n);  // حولناه بالبداية الى سترنق مع انها ارقام ولكن عشان التلاعب بالسترنق وخصوصًا عند وضع الصفر امام الرقم يكون اسهل
+                return n; // النتيجة راح تكون عدد من خانتين
+            }
+
+            //تعيين مصفوفات الاشهر وايام الاسبوع
+            var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
+            var week = ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday"];
+            //المعرّفات بالترتيب اللي راح يتم تحديثها على الوقت الحالي للجهاز
+            var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+            // قيم المصفوفات مناظرة لقيمة عنصرها التي يجب تحديثه
+            var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
+            // تحديث العناصر مع القيم الحالية للساعة والتاريخ
+            for (var i = 0; i < ids.length; i++) // يتم التكرار على كل معرّفات المصفوفة وتحديثها مع عناصرها المتناظرة مع الساعة والتاريخ الحالي
+                document.getElementById(ids[i]).firstChild.nodeValue = values[i]; 
+        }
+
+        function initClock() { // الاستدعاء الاولي لتحديث الساعة
+            updateClock();
+            window.setInterval("updateClock()", 1); // ضبط فاصل زمني لتحديث الساعة كل ثانية
+        }
+
+
+
+        //بداية الجافا سكربت لمربع المهام
+
+        const inputBox = document.getElementById("input-box"); //استدعاء الكلاسات السابقة عن طريق المعرّف الخاص بهم 
+        const listContainer = document.getElementById("list-container");
+
+        function addTask() { // من هنا راح ننشأ الدالة الخاصة بإضافة المهام وكل شيء متعلق فيها
+            if (inputBox.value === '') { // اذا كان المدخل فارغ
+                alert("You must write something .."); //راح تظهر رسالة تنبيه للمستخدم، يجب أن تكتب شيئًا ما 
+            }
+            else { // عدا ذلك، بمعى ان اليوزر أدخل قيمة
+                let li = document.createElement("li"); // li  هنا راح يخزن القيمة التي ادخلها اليوزر في عنصر 
+                li.innerHTML = inputBox.value; // هذا العنصر راح يأخذ النص كاملًا الذي كتبه اليوزر ولكن بدون مايفرغ الخانة الاساسية
+                listContainer.appendChild(li); // اظهار القيمة التي ادخلها اليوزر في الشاشة
+                let span = document.createElement("span"); //هنا راح نخزن قيمة الحذف، اللي بصفحتنا راح يرمز لها اكس صغير 
+                span.innerHTML = "\u00d7"; // هذا الكود هو رمز لعلامة الاكس
+                li.appendChild(span); //اظهار قيمة الاكس على الشاشة الرئيسية 
+            }
+            inputBox.value = ""; // عشان نفرغ الخانة الاساسية من العناصر، راح نستخدم هذي الدالة
+            saveData(); // حفظ البيانات بتخزين الجهاز بحيث لما نعيد تحديث الصفحة نفس المهام تبقى ولاتختفي
+        }
+
+        listContainer.addEventListener("click", function (e) { // راح ننشأ دالة تخلي النظام يتأكد من ضغط اليوزر
+            if (e.target.tagName === "LI") { // فإذا ضغط اليوزر على أي مهمة من المهام 
+                e.target.classList.toggle("checked"); // راح يستدعي صورة الصح ويحطها بالدائرة على اساس انها اكتملت
+                saveData(); // حفظ البيانات
+            }
+            else if (e.target.tagName === "SPAN") { // ومن الناحية الثانية لو اليوزر ضغط على السبان اللي بهالحالة هو علامة الاكس
+                e.target.parentElement.remove(); // راح يتم حذف البيانات
+                saveData(); // حفظ البيانات
+            }
+        }, false);
+
+        function saveData() { // هذي بالتفصيل دالة حفظ البيانات على التخزين المؤقت للجهاز
+            localStorage.setItem("data", listContainer.innerHTML);  // راح يحفظ لي جميع البيانات على التخزين المحلي
+
+        }
+
+        function showTask() { // هذي الدالة راح تعرض لي البيانات المحفوظة مرة أخرى على الشاشة بدون طلب من اليوزر
+            listContainer.innerHTML = localStorage.getItem("data"); // استدعاء للبيانات
+        }
+        showTask(); //  استدعاء للدالة
+    </script>
+
+
+</body>
+
+</html>

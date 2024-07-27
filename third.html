@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!--تنسيقات خاصة بالصفحة وقياساتها -->
+    <title>Hydration Tracker</title> <!--عنوان الصفحة-->
+    <link rel="stylesheet" href="styling.css"> <!--اشارة واستدعاء لملف التنسيق-->
+</head>
+
+
+<body>
+    <div class="top"> <!--العنوان الرأسي للصفحات الثلاثة، فهذا الكلاس راح يكون ثابت للصفحات القادمة لسهولة التنقل بينهم -->
+        <header> <!--يستخدم لتمثيل رأس الصفحة، ويعتبر مقدمة الموقع لانه يحتوي على الروابط الرئيسية للموقع-->
+           <nav> <!--يستطيع هذا الوسم حمل أكثر من رابط بداخله-->
+            <ul>
+                <li>  <a href="second.html"> Home </a> </li> <!-- أول صفحة في القسم العلوي راح تكون للصفحة الرئيسية -->
+                <li> <a class="active" href="third.html"> Hydration Tracker </a> </li> <!--ثاني صفحة في القسم العلوي راح تكون لصفحة تسجيل شرب الماء  -->
+                <li>  <a href="fourth.html"> About Us </a> </li><!--  ثالث صفحة في القسم العلوي راح تكون لصفحة حول الموقع-->
+            </ul>
+        </nav></header></div>
+
+<div class="Water"> <!-- انشاء كلاس بأسم الماء، راح يضم جميع الكلاسات المندرجة تحته لسهولة الوصول إليه -->
+    <h1>Hydration Tracker</h1> <!-- عنوان رئيسي للصفحة -->
+    <h3>Your Daily Goal is : 2 Liters</h3> <!--  العنوان الفرعي -->
+
+    <div class="cup"> <!--  انشاء كلاس بأسم الكوب -->
+        <div class="remained" id="remained"> <!-- انشاء كلاس يحتفظ بالمتبقي من أكواب الماء -->
+          <span id="liters"></span> <!-- المحتوى الذي يوضع بداخل الوسم سبان يتم عرضه كما هو مالم يتم إضافة تنسيق له من ملف سي اس اس -->
+          <small>Remained</small>  <!-- الوسم سمول يعرض الكلام الثانوي أو الذي يعتبر كلام أقل أهمية بخط أصغر -->
+        </div>
+  
+        <div class="percentage" id="percentage"></div>  <!-- انشاء كلاس راح يعرض لي النسبة المئوية -->
+      </div>
+  
+      <p class="text">Select how many glasses of water that you have consumed</p>  <!-- عرض النص التالي في الصفحة -->
+      
+    
+  
+      <div class="cups">  <!-- انشاء كلاس راح يحوي جميع الأكواب الظاهرة في الصفحة -->
+        <div class="cup cup-small">250 ml</div>  <!-- جميع الأكواب بشكل أصغر  -->
+        <div class="cup cup-small">250 ml</div>
+        <div class="cup cup-small">250 ml</div>
+        <div class="cup cup-small">250 ml</div>
+        <div class="cup cup-small">250 ml</div>
+        <div class="cup cup-small">250 ml</div>
+        <div class="cup cup-small">250 ml</div>
+        <div class="cup cup-small">250 ml</div>
+      </div></div>
+
+
+<script> //بداية الجافا سكربت 
+
+// htmlتعريف المتغيرات وربطها بكلاسات الـ
+const smallCups = document.querySelectorAll('.cup-small')
+const liters = document.getElementById('liters')
+const percentage = document.getElementById('percentage')
+const remained = document.getElementById('remained')
+
+updateBigCup() // تعريف هذه الدالة تحت، ولكن استدعيناها هنا لحاجة تحديث حالة الكوب الكبير
+
+smallCups.forEach((cup, idx) => { // هذي الدالة وظيفتها تعيين حدث اضافة من الاكواب الصغيرة للكبيرة
+    cup.addEventListener('click', () => highlightCups(idx)) // عند -الضغط- على الكوب راح  يعطي حدث الاضافة للكوب الكبير
+})
+
+function highlightCups(idx) {  // هذي الدالة وظيفتها الغاء الامتلاء عند الضفط على الكوب وهو ممتلئ بالفعل
+    if (idx===7 && smallCups[idx].classList.contains("full")) idx--;  // اذا كان الكوب ممتلئ ارجع ورا مرة واحدة لالغاء الملئ
+    else if(smallCups[idx].classList.contains('full') && !smallCups[idx].nextElementSibling.classList.contains('full')) { // هذي الدالة راح نلاحظ تأثيرها عندما نضغط على كوب واللي قبله غير مملوء، فهنا راح تملئ الكوب الاساسي وجميع ماسبقه
+        idx--
+    }
+
+    smallCups.forEach((cup, idx2) => { // هذا اللوب راح يمشي على جميع الأكواب
+        if(idx2 <= idx) { 
+            cup.classList.add('full') // اضافة كلاس الملئ لجميع الاكواب المختارة
+        } else {
+            cup.classList.remove('full') // ازالة كوب الملئ من جميع الاكواب الغير مختارة
+        }
+    })
+
+    updateBigCup() // تعريف هذه الدالة تحت، ولكن استدعيناها هنا لحاجة تحديث حالة الكوب الكبير
+}
+
+function updateBigCup() { // دالة تحديث الكوب الكبير
+    const fullCups = document.querySelectorAll('.cup-small.full').length // يحصي عدد الأكواب الصغيرة التي تمتلك كلاس الامتلاء 
+    const totalCups = smallCups.length // يستدعي مجمل عدد الأكواب الصغيرة
+
+    if(fullCups === 0) { // إذا مافيه كوب صغير مليان، يخفي عرض النسبة المئوية
+        percentage.style.visibility = 'hidden' // اخفاء النسبة المئوية  
+        percentage.style.height = 0
+    } else { // اذا كان فيه كوب - اكواب مليئة ، يتم تحديث النسبة المئوية المعروضة على الشاشة
+        percentage.style.visibility = 'visible' // اظهار النسبة المئوية
+        percentage.style.height = `${fullCups / totalCups * 330}px` // يحدد ارتفاع النسبة المئوية للكوب الكبير بناءً على نسبة الاكواب الممتلئة 
+        percentage.innerText = `${fullCups / totalCups * 100}%` // تحديث النص المكتوب بالكوب الكبير بناءً على النسبة المئوية للاكواب الممتلئة 
+    }
+
+    if(fullCups === totalCups) { // اذا جميع الاكواب الصغيرة مليئة 
+        remained.style.visibility = 'hidden' // اخفاء النسبة المئوية من الكوب الكبير
+        remained.style.height = 0
+    } else { // اذا مو كل الاكواب الصغيرة مليانة
+        remained.style.visibility = 'visible' // تحديث النسبة المئوية للمتبقي من الاكواب
+        liters.innerText = `${2 - (250 * fullCups / 1000)}L` // تحديث النص المكتوب بالكوب الكبير بناءً على النسبة المئوية المتبقية من الاكواب
+    }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head> <!-- في القسم العلوي حاوية الهيد راح تحوي الميتاداتا بمعى بيانات البيانات-->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!--تنسيقات خاصة بالصفحة وقياساتها -->
+    <title>Login & Registration</title> <!--عنوان الصفحة-->
+    <link rel="stylesheet" type="text/css" href="styling.css"> <!--اشارة واستدعاء لملف التنسيق-->
+    <script src="https://kit.fontawesome.com/35ece783d9.js" crossorigin="anonymous"></script> <!--اشارة لايقونات اليوزر والايميل والباسوورد ، موجودة الاشارة له في جزئية الجافا سكربت fontawesome رابط من موقع  -->
+    
+
+</head>
+
+<body> <!--في  القسم المنصف حاوية البودي راح تحوي البيانات الظاهرة في الصفحة متضمنة للنصوص والصور والروابط وكل العناصر الأخرى-->
+
+<div class="container"> <!--كلاس كبير يُعامل كحاوية لجميع الكلاسات المندرجة تحته بحيث نقدر تنستدعيه وننسقه بشكل مجمل عوضًا عن تنسيق كل كلاس على حدة-->
+    <div class="form-box"> <!--انشاء كلاس-->
+        <h1 id="title">Sign Up</h1> <!--عنوان رئيسي-->
+
+        <form action= "second.html"> <!--تحديد الاجراء للزر راح يكون الذهاب للصفحة الرئيسية -->
+
+    <div class="input-group"> <!--انشاء كلاس لإضافة أيقونات التسجيل  -->
+        <div class="input-field" id="nameField"> <!-- انشاء كلاس واعطاءه اسم معرّف لسهولة استدعاءه في الجافا سكربت  -->
+            <i class="fa-sharp fa-solid fa-user"></i> <!--  كلاس الإدخال وايقونة الاسم من الموقع المشار اليه في البداية-->
+            <input type="text" placeholder="Name"> <!-- اختيار نوع المدخل كـنص-->
+           </div>
+
+           <div class="input-field">  <!--استدعاء نفس الكلاس مرة اخرى لايقونة الايميل -->
+            <i class="fa-sharp fa-solid fa-at"></i>  <!-- كلاس الادخال وايقونة الايميل من الموقع المشار اليه في البداية-->
+            <input type="email" placeholder="Email"> <!-- اختيار نوع المدخل كـأيميل-->
+           </div>
+
+           <div class="input-field"> <!--استدعاء نفس الكلاس مرة اخرى لايقونة الباسوورد -->
+            <i class="fa-sharp fa-solid fa-lock"></i> <!-- كلاس الادخال وايقونة الباسوورد من الموقع المشار اليه في البداية-->
+            <input type="password" placeholder="Password"><!-- اختيار نوع المدخل كرمز-->
+           </div>
+
+           <p>Lost password? <a href="#">Click Here</a></p>  <!--  خانة نسيان الباسوورد تظهر كشكل رابط -->
+          </div>
+
+
+          <div class="btn-field"> <!-- كلاس الأزرار، زر التسجيل وتسجيل الدخول -->
+          <button type="button" id="signupBtn">Sign Up</button> <!-- زر التسجيل -->
+            <button type="button"  id="signinBtn" class="disable">Sign In</button> <!--  نشأنا كلاس بمسمى تعطيل بجانب زر تسجيل الدخول حتى يتغير الشكل عند اختيار الزر وتفعيل وتنسيق هذا الكلاس يكون من خلال الجافا سكربت وملف السي اس اس-->
+            </div>
+
+
+            <div class="submit-btn"> <!--كلاس زر الارسال-->
+            <button type="submit" type="submit">Submit</button> <!--تحديد نوع الزر لزر ارسال والوجهة تكون ببداية الملف للصفحة الرئيسية-->
+            </div>
+
+
+    </form>
+</div>
+</div>
+
+
+<script> //بداية الجافا سكربت
+
+    let signupBtn = document.getElementById("signupBtn"); //استدعاء الكلاسات السابقة عن طريق المعرّف الخاص بهم 
+    let signinBtn = document.getElementById("signinBtn");
+    let nameField = document.getElementById("nameField");
+    let title = document.getElementById("title"); 
+    
+    
+    signinBtn.onclick = function(){ //بداية دالة الازرار، ونبغى هنا الوظيفة للزر والدالة الخاصة فيه تتفعل عن الضغط على الزر
+        nameField.style.maxHeight = "0"; // عند الضغط على زر تسجيل الدخول نحتاج خانة الاسم تختفي ولهذا قيمته صفر
+        title.innerHTML = "Sign In"; // عند الضغط على الزر أيضًا نحتاج العنوان الرئيسي يتغير الى كلمة تسجيل دخول
+        signupBtn.classList.add("disable"); // ولاننا نحتاج اللون يتغير على حسب الزر المختار مابين تسجيل وتسجيل دخول، راح نعين لزر التسجيل كلاس تعطيل اللون
+        signinBtn.classList.remove("disable"); // ولزر تسجيل الدخول راح نلغي كلاس تعطيل اللون بحيث يظهره لنا عند الضغط على تسجيل الدخول 
+    
+    }
+    
+    signupBtn.onclick = function(){ //هنا راح ننشأ الدالة لزر التسجيل
+        nameField.style.maxHeight = "60px"; // بعكس السابق، بزر التسجيل حنا نحتاج الاسم يكون ظاهر فأعطيناه قيمة
+        title.innerHTML = "Sign Up"; //عند الضغط على الزر أيضًا نحتاج العنوان الرئيسي يتغير الى كلمة تسجيل
+        signupBtn.classList.remove("disable"); // نفس الدالة السابقة لكن فقط بأختلاف المهام، هنا راح نلغي كلاس التعطيل من زر التسجيل
+        signinBtn.classList.add("disable"); // ونضيف زر التعطيل على تسجيل الدخول بحيث انه يرجع للون الاساسي
+    
+    }
+    
+    </script>
+
+</body>
+</html>
